@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+
+#chatbot {
+  width: 400px;
+  height: 500px;
+  border: 1px solid black;
+  overflow: auto;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.user-message {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.bot-message {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+#message-input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+#send-button {
+  width: 100%;
+  height: 50px;
+  border: 1px solid black;
+  background-color: lightblue;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+    </style>
+
+
+</head>
+<body>
+
+    <script>
+      
+
+const chatbot = {
+  greeting: "Welcome to our used car dealership! How can I help you today?",
+  buy: "you can buy a car by contacting one of our representatives which is found on our homepage",
+  inventory: [
+    { make: "Honda", model: "Accord", year: "2018", price: "20000" },
+    { make: "Toyota", model: "Highlander", year: "2013", price: "30000" },
+    { make: "Tesla", model: "model 3", year: "2020", price: "800000" },
+    {make: "Ford", model: "Explorer", year: "2020", price: "100000"},
+    {make: "BMW", model: "M4", year: "2018", price: "100000"},
+    
+
+  ],
+  handleUserInput(input) {
+    input = input.toLowerCase();
+    if (input == "hi")
+    {
+      return "Welcome to our used car dealership! How can I help you today?";
+    }
+    if (input == "what car should i get")
+    {
+      return "you can use our filters on our website, search for a car, or email us through our website's email";
+    }
+    if (input.includes("hello") || input.includes("greetings")) 
+    {
+      return this.greeting;
+    } 
+    else if (input.includes("inventory") || input.includes("what cars do you have")|| input.includes("what cars do you have?") ) 
+    {
+      let message = "Our current inventory is: \n";
+      this.inventory.forEach(car => {
+        message += `${car.year} ${car.make} ${car.model} - $${car.price}\n`;
+      });
+      return message + "and more... please go to our website to see our overall list of cars";
+    } 
+    else if(input.includes("buy")||input.includes("purchase"))
+    {
+        return this.buy;
+    }
+    else if(input.includes("color"))
+    {
+      return "our colors are blue, grey, silver, black, white, you can find specific cars with the color using the filter feature";
+    }
+    else if(input.includes("deliver"))
+    {
+      return "you can expect to get your car after finalizing payment with us at least 3 to 10 days in the future";
+    }
+    else if(input.includes("see"))
+    {
+      return "you can see your vehicle after purchasing it by coming to our car lot or by seeing photos on our website";
+    }
+    else if(input.includes(mileage)||input.includes(miles))
+    {
+      return "for cars in the 10000-20000 mile range they typically cost more as the car's value has not depreciated";
+    }
+    else if (input.includes("drive"))
+    {
+      return "we offer four types of drive, all wheel, four-wheel, front-wheel, and rear-wheel";
+    }
+
+    else {
+      return "I'm sorry, I didn't understand your input. Please try again. Anything that you cannot find can be answered by emailing us at carlotused@gmail.com";
+    }
+  }
+};
+
+function sendMessage() {
+  const message = document.getElementById("message-input").value;
+  const chatbox = document.getElementById("chatbox");
+  chatbox.innerHTML += `<div class="user-message">${message}</div>`;
+  chatbox.scrollTop = chatbox.scrollHeight;
+  const response = chatbot.handleUserInput(message);
+  chatbox.innerHTML += `<div class="bot-message">${response}</div>`;
+  chatbox.scrollTop = chatbox.scrollHeight;
+  document.getElementById("message-input").value = "";
+}
+
+    </script>
+
+<div id="chatbot">
+  <div id="chatbox"></div>
+  <input type="text" id="message-input" placeholder="Type your message here">
+  <button id="send-button" onclick="sendMessage()">Send</button>
+</div>
+
+
+
+</body>
